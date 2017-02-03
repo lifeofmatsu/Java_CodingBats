@@ -58,6 +58,8 @@ public boolean commonEnd(int[] a, int[] b) {
   }
 }
 
+----------------------------------------------------------------------------------------------------------------------------
+
 //sum3
 //Given an array of ints length 3, return the sum of all the elements.
 
