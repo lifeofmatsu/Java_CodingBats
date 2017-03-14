@@ -263,3 +263,226 @@ public String repeatSeparator(String word, String sep, int count) {
 
 ----------------------------------------------------------------------------------------------------------------------------
 
+/*
+Given a string, consider the prefix string made of the first N chars of the string. 
+Does that prefix string appear somewhere else in the string? 
+Assume that the string is not empty and that N is in the range 1..str.length().
+
+prefixAgain("abXYabc", 1) → true
+prefixAgain("abXYabc", 2) → true
+prefixAgain("abXYabc", 3) → false
+*/
+  
+public boolean prefixAgain(String str, int n) {
+  String string = str.substring(0, n);
+  
+  for(int i = n; i <= str.length() - string.length(); i++) {
+    if(str.substring(i, i + string.length()).equals(string)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Given a string, does "xyz" appear in the middle of the string? To define middle, we'll say that the number of chars 
+to the left and right of the "xyz" must differ by at most one. This problem is harder than it looks.
+
+xyzMiddle("AAxyzBB") → true
+xyzMiddle("AxyzBB") → true
+xyzMiddle("AxyzBBB") → false
+*/
+  
+public boolean xyzMiddle(String str) {
+  for(int i = 0; i < str.length(); i++) {
+    if(i + 3 > str.length()) {
+    } else {
+      if(str.substring(i, i + 3).equals("xyz") && (i == str.length() - (i + 3) || i - 1 == str.length() - (i + 3) 
+          || i + 1 == str.length() - (i + 3))) {
+        return true;
+      }
+    }
+  } 
+  return false;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+A sandwich is two pieces of bread with something in between. Return the string that is between the first and last 
+appearance of "bread" in the given string, or return the empty string "" if there are not two pieces of bread.
+
+getSandwich("breadjambread") → "jam"
+getSandwich("xxbreadjambreadyy") → "jam"
+getSandwich("xxbreadyy") → ""
+*/
+  
+public String getSandwich(String str) {
+  int occur = str.indexOf("bread");
+  int occur2 = str.lastIndexOf("bread");
+  
+  if(occur == occur2) {
+    return "";
+  } else {
+    return str.substring(occur + 5, occur2);
+  }
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Returns true if for every '*' (star) in the string, if there are chars both immediately before and after the star, 
+they are the same.
+
+sameStarChar("xy*yzz") → true
+sameStarChar("xy*zzz") → false
+sameStarChar("*xa*az") → true
+*/
+  
+public boolean sameStarChar(String str) {
+  char[] array = str.toCharArray();
+
+  for(int i = 1; i < array.length - 1; i++) {
+    if(array[i] == '*' && array[i-1] != array[i+1])
+      return false;
+  }
+  return true;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Given a string, compute a new string by moving the first char to come after the next two chars, so "abc" yields "bca". 
+Repeat this process for each subsequent group of 3 chars, so "abcdef" yields "bcaefd". 
+Ignore any group of fewer than 3 chars at the end.
+
+oneTwo("abc") → "bca"
+oneTwo("tca") → "cat"
+oneTwo("tcagdo") → "catdog"
+*/
+  
+public String oneTwo(String str) {
+  String string = "";
+  for(int i = 0; i < str.length() - 2; i+=3) {
+    string += str.substring(i+1, i+3) + str.charAt(i);
+  }
+  return string;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Look for patterns like "zip" and "zap" in the string -- length-3, starting with 'z' and ending with 'p'. 
+Return a string where for all such words, the middle letter is gone, so "zipXzap" yields "zpXzp".
+
+zipZap("zipXzap") → "zpXzp"
+zipZap("zopzop") → "zpzp"
+zipZap("zzzopzop") → "zzzpzp"
+*/
+  
+public String zipZap(String str) {
+  for(int i = 0; i < str.length() - 2; i++) {
+    if(str.charAt(i) == 'z' && str.charAt(i+2) == 'p')
+      str = str.substring(0, i+1) + str.substring(i+2);
+  }
+  return str;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Return a version of the given string, where for every star (*) in the string the star and the chars immediately 
+to its left and right are gone. So "ab*cd" yields "ad" and "ab**cd" also yields "ad".
+
+starOut("ab*cd") → "ad"
+starOut("ab**cd") → "ad"
+starOut("sm*eilly") → "silly"
+*/
+  
+public String starOut(String str) {
+  int length = str.length();
+  String string = "";
+  for (int i = 0; i < length; i++) {
+    if (i == 0 && str.charAt(i) != '*')
+      string += str.charAt(i);
+    if (i > 0 && str.charAt(i) != '*' && str.charAt(i-1) != '*')
+      string += str.charAt(i);
+    if (i > 0 && str.charAt(i) == '*' && str.charAt(i-1) != '*')
+      string = string.substring(0, string.length()-1);
+  }
+  return string;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Given a string and a non-empty word string, return a version of the original String where all chars have been replaced 
+by pluses ("+"), except for appearances of the word string which are preserved unchanged.
+
+plusOut("12xy34", "xy") → "++xy++"
+plusOut("12xy34", "1") → "1+++++"
+plusOut("12xy34xyabcxy", "xy") → "++xy++xy+++xy"
+*/
+  
+public String plusOut(String str, String word) {
+  String string = "";
+  int length = word.length();
+  
+  for(int i = 0; i < str.length(); i++) {
+    if(i + length > str.length())
+      break;
+    else if(str.substring(i, i + length).equals(word)) {
+      string += word;
+      i += length - 1;
+    }
+    else {
+      string += "+";
+    }
+  }
+  if(string.length() != str.length()) {
+    while(string.length() != str.length()) {
+      string += "+";
+    }
+  }
+  return string;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+  
+/*
+Given a string and a non-empty word string, return a string made of each char just before and just after every appearance 
+of the word in the string. Ignore cases where there is no char before or after the word, and a char may be included twice 
+if it is between two words.
+
+wordEnds("abcXY123XYijk", "XY") → "c13i"
+wordEnds("XY123XY", "XY") → "13"
+wordEnds("XY1XY", "XY") → "11"
+*/
+  
+public String wordEnds(String str, String word) {
+  String string = "";
+  int wLength = word.length();
+  int sLength = str.length();
+  
+  for(int i = 0; i < sLength; i++) {
+    if(sLength == wLength)
+      return "";
+    else if(i + wLength == sLength && str.substring(i, i + wLength).equals(word)) {
+      string += str.charAt(sLength - wLength - 1);
+      return string;
+    }
+    else if(i + wLength < sLength && str.substring(i, i + wLength).equals(word)) {
+      if(i == 0)
+      ;
+      else {
+        string += str.charAt(i - 1);
+      }
+      string += str.charAt(i + wLength);
+    }
+  }
+  return string;
+}
+
+----------------------------------------------------------------------------------------------------------------------------
