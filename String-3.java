@@ -164,6 +164,16 @@ mirrorEnds("abca") → "a"
 mirrorEnds("aba") → "aba"
 */
   
+public String mirrorEnds(String string) {
+  String result = "";
+  for (int i = 0, j = string.length() - 1; i < string.length(); i++, j--) {
+    if (string.charAt(i) == string.charAt(j))
+      result += string.charAt(i);
+    else break;
+  }
+    return result;
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -174,6 +184,23 @@ maxBlock("abbCCCddBBBxx") → 3
 maxBlock("") → 0
 */
   
+public int maxBlock(String str) {
+  int count = 0;
+  int max = 0;
+  for(int i = 0; i < str.length(); i++) {
+    count = 0;
+    for(int j = i; j < str.length(); j++) {
+      if(str.charAt(i) == str.charAt(j))
+        count++;
+      else
+        break;
+    }
+    if(count > max)
+      max = count;
+  }
+  return max;
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -185,7 +212,28 @@ sumNumbers("abc123xyz") → 123
 sumNumbers("aa11b33") → 44
 sumNumbers("7 11") → 18
 */
-  
+
+public int sumNumbers(String str) {
+  String temp = "";
+  int sum = 0;
+  int ctr = 0;
+  int i = 0;
+  while(i < str.length()) {
+    char letter = str.charAt(i);
+    while(Character.isDigit(letter)) {
+      temp += letter + "";
+      i++;
+      if(i >= str.length()) break;
+      letter = str.charAt(i);
+    }
+    if(!temp.equals(""))
+      sum += Integer.parseInt(temp);
+    temp = "";
+    i++;
+  }
+  return sum;
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -197,5 +245,21 @@ notReplace("is test") → "is not test"
 notReplace("is-is") → "is not-is not"
 notReplace("This is right") → "This is not right"
 */
-  
+
+public String notReplace(String str) {
+  String result = "";
+  str = " " + str + "  ";
+  for (int i = 0; i < str.length() - 2; i++) {
+    if (str.charAt(i) == 'i') {
+      if (str.charAt(i + 1) == 's'
+        && !Character.isLetter(str.charAt(i + 2))
+        && !Character.isLetter(str.charAt(i - 1))) {
+          result += "is not";
+          i += 1;
+      } else result += "i";
+    } else result += str.charAt(i);
+  }
+  return result.substring(1);
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
