@@ -171,6 +171,20 @@ allSwap(["ax", "bx", "cx", "cy", "by", "ay", "aaa", "azz"]) → ["ay", "by", "cy
 allSwap(["ax", "bx", "ay", "by", "ai", "aj", "bx", "by"]) → ["ay", "by", "ax", "bx", "aj", "ai", "by", "bx"]
 */
   
+public String[] allSwap(String[] strings) {
+  Map<String, Integer> map = new HashMap();
+  for (int i = 0; i < strings.length; i++){
+    if (map.containsKey(strings[i].charAt(0) + "")){
+      String string = strings[i];
+      strings[i] = strings[map.get(strings[i].charAt(0) + "")];
+      strings[map.get(strings[i].charAt(0) + "")] = string;
+      map.remove(strings[i].charAt(0) + "");
+    } else
+      map.put(strings[i].charAt(0) + "", i);
+  }
+  return strings;
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -181,4 +195,23 @@ firstSwap(["ax", "bx", "cx", "cy", "by", "ay", "aaa", "azz"]) → ["ay", "by", "
 firstSwap(["ax", "bx", "ay", "by", "ai", "aj", "bx", "by"]) → ["ay", "by", "ax", "bx", "ai", "aj", "bx", "by"]
 */
   
+public String[] firstSwap(String[] strings) {
+  Map<String, Integer> map = new HashMap();
+  for (int i = 0; i < strings.length; i++) {
+    String string = String.valueOf(strings[i].substring(0, 1));
+    if (map.containsKey(string)) {
+      int value = map.get(string);
+      if (value == -1)
+        continue;
+      int pos = map.get(string); 
+      String temp = strings[pos];
+      strings[pos] = strings[i];
+      strings[i] = temp ;
+      map.put(string, -1);
+    } else
+      map.put(string, i);
+  }
+  return strings;
+}
+
 ----------------------------------------------------------------------------------------------------------------------------
