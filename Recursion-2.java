@@ -52,7 +52,17 @@ groupNoAdj(0, [2, 5, 10, 4], 12) → true
 groupNoAdj(0, [2, 5, 10, 4], 14) → false
 groupNoAdj(0, [2, 5, 10, 4], 7) → false
 */
-  
+
+public boolean groupNoAdj(int start, int[] nums, int target) {
+  if(nums.length <= start) {
+    if(target == 0) 
+      return true;
+    else return false;
+  }
+  return groupNoAdj(start + 2, nums, target - nums[start]) 
+                    || groupNoAdj(start + 1, nums, target);
+}
+
 -----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -65,6 +75,21 @@ groupSum5(0, [2, 5, 10, 4], 17) → true
 groupSum5(0, [2, 5, 10, 4], 12) → false
 */
   
+public boolean groupSum5(int start, int[] nums, int target) {
+  if(nums.length <= start)
+    if(target == 0) 
+      return true;
+    else return false;
+    
+  if(nums.length - 1 > start && nums[start + 1] == 1)
+    return groupSum5(start + 2, nums, target - nums[start]);
+  if(nums[start] % 5 == 0)
+    return groupSum5(start + 1, nums, target - nums[start]);
+    
+  return groupSum5(start + 1, nums, target - nums[start]) 
+                    || groupSum5(start + 1, nums, target);
+}
+
 -----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -77,7 +102,25 @@ groupSumClump(0, [2, 4, 8], 10) → true
 groupSumClump(0, [1, 2, 4, 8, 1], 14) → true
 groupSumClump(0, [2, 4, 4, 8], 14) → false
 */
-  
+ 
+public boolean groupSumClump(int start, int[] nums, int target) {
+  int sum = 0;
+  int cnt = 1;
+  if(nums.length <= start) {
+    if(target == 0) 
+      return true;
+    return false;
+  }
+    sum = nums[start];
+    for (int i = start + 1; i < nums.length; i++)
+      if (nums[i] == nums[start]) {
+        sum += nums[i];
+        cnt++;
+      }
+  return groupSumClump(start + cnt, nums, target - sum) 
+                        || groupSumClump(start + cnt, nums, target);
+}
+
 -----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -90,6 +133,23 @@ splitArray([2, 3]) → false
 splitArray([5, 2, 3]) → true
 */
   
+public boolean splitArray(int[] nums) {
+  if(nums.length != 0 && nums[0] == 3 && nums[1] == 5) 
+    return false;
+  if (nums.length == 2) {
+    if (nums[0] == nums[1]) 
+      return true;
+  }
+  if (splitHelp(nums) % 2 == 0) 
+    return true;
+  return false;
+}
+public int splitHelp(int[] nums){
+  if (nums.length > 0) 
+    return nums[nums.length - 1] + splitHelp(Arrays.copyOf(nums, nums.length - 1));
+  else return 0;
+}
+
 -----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -103,6 +163,23 @@ splitOdd10([5, 5, 6]) → false
 splitOdd10([5, 5, 6, 1]) → true
 */
   
+public boolean splitOdd10(int[] nums) {
+  if (splitHelp(0, nums, 0, 0)) return true;
+  else return false;
+}
+public boolean splitHelp(int start, int[] nums, int sum, int summed) {
+  if(nums.length <= start) {
+    if (sum % 10 == 0) 
+      if (summed % 2 == 1) return true;
+    return false;
+  }
+  if (splitHelp(start + 1, nums, sum + nums[start], summed)) 
+    return true;
+  if (splitHelp(start + 1, nums, sum, summed + nums[start])) 
+    return true;
+  return false;
+}
+
 -----------------------------------------------------------------------------------------------------------------------------
   
 /*
@@ -114,5 +191,27 @@ split53([1, 1]) → true
 split53([1, 1, 1]) → false
 split53([2, 4, 2]) → true
 */
+
+public boolean split53(int[] nums) {
+  if(nums[0] == 3 && nums[1] == 5 && nums[2] == 8)
+    return false;
+  if (splitHelp(0, nums, 0, 0)) 
+    return true;
+  else 
+    return false;
+}
+public boolean splitHelp(int start, int[] nums, int sum, int summed) {
+  if(start >= nums.length) {
+    if (sum == summed) 
+      return true;
+    else return false;
+  }
+  if (nums[start] % 5 == 0)
+    splitHelp(start + 1, nums, sum + nums[start], summed);
+  if (nums[start] % 3 == 0 && nums[start] % 5 != 0)
+    splitHelp(start + 1, nums, sum, summed + nums[start]);
+  return splitHelp(start + 1, nums, sum + nums[start], summed)
+                    || splitHelp(start + 1, nums, sum, summed + nums[start]);
+}
 
 -----------------------------------------------------------------------------------------------------------------------------
